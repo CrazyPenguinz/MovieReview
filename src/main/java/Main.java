@@ -11,7 +11,7 @@ public class Main extends Application {
 
         Parent root = FXMLLoader.load(getClass().getResource("/Home.fxml"));
         primaryStage.setTitle("Movie Review");
-        primaryStage.setScene(new Scene(root, 404, 550));
+        primaryStage.setScene(new Scene(root, 750, 550));
         primaryStage.show();
     }
 
