@@ -28,4 +28,52 @@ public class Movie {
         this.length = length;
         this.releaseDate = releaseDate;
     }
+
+    public String getPicture() {
+        return picture;
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getDirector() {
+        return director;
+    }
+
+    public String getActor() {
+        return actor;
+    }
+
+    public String getMovieStudio() {
+        return movieStudio;
+    }
+
+    public String getReview() {
+        return review;
+    }
+
+    public String getSynopsis() {
+        return synopsis;
+    }
+
+    public int getRating() {
+        return rating;
+    }
+
+    public int getMovieRate() {
+        return movieRate;
+    }
+
+    public int getLength() {
+        return length;
+    }
+
+    public String getReleaseDate() {
+        return releaseDate;
+    }
 }
