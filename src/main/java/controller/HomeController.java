@@ -30,7 +30,7 @@ public class HomeController {
         topRate.add(topRate1);
         topRate.add(topRate2);
         topRate.add(topRate3);
-        setUpTopRateImage(MoviesDBConnector.getTopRating());
+//        setUpTopRateImage(MoviesDBConnector.getTopRating());
 //        set up ImageView can clickable
         topRate1 = new ImageView();
         topRate1.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -49,19 +49,19 @@ public class HomeController {
         });
 
 //        set up Category menu
-        sciFi.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                chooseCategory = "sci-fi";
-            }
-        });
+//        sciFi.setOnMouseClicked(new EventHandler<MouseEvent>() {
+//            @Override
+//            public void handle(MouseEvent event) {
+//                chooseCategory = "sci-fi";
+//            }
+//        });
     }
 
     private void choosedCategory(){
 
     }
 
-//    set up image to ImageView
+//    set up icon to ImageView
     private void setUpTopRateImage(ObservableList<Movie> topRateDB) {
         int i = 0;
         for (ImageView imageView : topRate) {

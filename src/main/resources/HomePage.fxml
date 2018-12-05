@@ -13,7 +13,7 @@
          <children>
               <ImageView fitHeight="34.0" fitWidth="33.0" layoutX="545.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
                   <image>
-                      <Image url="@image/search.png" />
+                      <Image url="@icon/search.png" />
                   </image>
               </ImageView>
          </children></Pane>
