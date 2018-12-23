@@ -4,29 +4,38 @@ public class Movie {
     private String picture;
     private String genre;
     private String name;
-    private String director;
-    private String actor;
-    private String movieStudio;
     private String review;
     private String synopsis;
-    private int rating;
-    private int movieRate;
-    private int length;
-    private String releaseDate;
+    private double rating;
+    private int score;
+    private int rateCount;
+    private int id;
 
-    public Movie(String picture, String genre, String name, String director, String actor, String movieStudio, String review, String synopsis, int rating, int movieRate, int length, String releaseDate) {
+    public Movie(int id, String picture, String genre, String name, String review, String synopsis, double rating, int score, int rateCount) {
+        this.id = id;
         this.picture = picture;
         this.genre = genre;
         this.name = name;
-        this.director = director;
-        this.actor = actor;
-        this.movieStudio = movieStudio;
         this.review = review;
         this.synopsis = synopsis;
         this.rating = rating;
-        this.movieRate = movieRate;
-        this.length = length;
-        this.releaseDate = releaseDate;
+        this.score = score;
+        this.rateCount = rateCount;
+    }
+
+    public Movie(String picture, String genre, String name, String review, String synopsis, double rating, int score, int rateCount) {
+        this.picture = picture;
+        this.genre = genre;
+        this.name = name;
+        this.review = review;
+        this.synopsis = synopsis;
+        this.rating = rating;
+        this.score = score;
+        this.rateCount = rateCount;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getPicture() {
@@ -41,17 +50,6 @@ public class Movie {
         return name;
     }
 
-    public String getDirector() {
-        return director;
-    }
-
-    public String getActor() {
-        return actor;
-    }
-
-    public String getMovieStudio() {
-        return movieStudio;
-    }
 
     public String getReview() {
         return review;
@@ -61,19 +59,21 @@ public class Movie {
         return synopsis;
     }
 
-    public int getRating() {
+    public double getRating() {
         return rating;
     }
 
-    public int getMovieRate() {
-        return movieRate;
+    public int getScore() {
+        return score;
     }
 
-    public int getLength() {
-        return length;
+    public int getRateCount() {
+        return rateCount;
     }
 
-    public String getReleaseDate() {
-        return releaseDate;
+    public void rate(int score) {
+        rateCount++;
+        this.score += score;
+        this.rating = score / rateCount;
     }
 }

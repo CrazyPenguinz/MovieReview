@@ -1,38 +1,46 @@
 package controller;
 
 import databaseConnector.MoviesDBConnector;
-import javafx.event.ActionEvent;
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import model.Movie;
 
-import java.io.File;
 import java.io.IOException;
 
-
-public class AddNewMoviePageController {
+public class SearchPageController {
+    private ObservableList<Movie> movies;
+    @FXML private TableView<Movie> movieTableView;
+    @FXML private TableColumn picture, name, type, rating;
     @FXML private Button sciFi, action, comedy, drama, adventure, war;
-    @FXML private TextField title;
-    @FXML private TextArea description, review;
-    @FXML private ChoiceBox<String> score, genres;
-    @FXML private ImageView search, home, upload;
+    @FXML private ImageView search, home;
     @FXML private TextField keyword;
-    @FXML private Button loadPictureBtn;
 
     public void initialize() {
-        score.getItems().addAll("1", "2", "3", "4", "5");
-        genres.getItems().addAll("Action", "Adventure", "Comedy", "Drama", "Sci-fi", "War");
+        picture.setCellValueFactory(new PropertyValueFactory<Movie, ImageView>("picture"));
+        name.setCellValueFactory(new PropertyValueFactory<Movie, String>("name"));
+        type.setCellValueFactory(new PropertyValueFactory<Movie, String>("type"));
+        rating.setCellValueFactory(new PropertyValueFactory<Movie, Double>("rating"));
+
+        movieTableView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                Movie selected = movieTableView.getSelectionModel().getSelectedItem();
+                if (selected != null) {
+                    goToSelectedMoviePage((Stage) movieTableView.getScene().getWindow(), selected);
+                }
+            }
+        });
 
         home.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
@@ -99,18 +107,6 @@ public class AddNewMoviePageController {
         });
     }
 
-    public void saveNewMovie(ActionEvent event) {
-        String tmpTitle = title.getText();
-        String tmpDes = description.getText();
-        String tmpReview = review.getText();
-        String url = upload.getImage().toString();
-        String genre = genres.getValue();
-        String r = score.getValue();
-        if (!tmpTitle.equals("") && !tmpDes.equals("") && !tmpReview.equals("") && !url.equals("") && !genre.equals("") && !r.equals("")) {
-            MoviesDBConnector.add(new Movie(url, genre, tmpTitle, tmpReview, tmpDes, Double.valueOf(r), Integer.valueOf(r), 1));
-        }
-    }
-
     public void search(Stage stage, String name) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/CategoryPage.fxml"));
         try {
@@ -118,11 +114,22 @@ public class AddNewMoviePageController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        SearchPageController s = loader.getController();
-        s.setMovies(name);
+        MovieController m = loader.getController();
+
         stage.show();
     }
 
+    private void goToSelectedMoviePage(Stage stage, Movie selectedMovie) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/MoviePage.fxml"));
+            stage.setScene(new Scene(loader.load()));
+            MovieController movieController = loader.getController();
+            movieController.setMovie(selectedMovie);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     private void selectedGenre(Stage stage, String genre) {
         try {
@@ -135,15 +142,9 @@ public class AddNewMoviePageController {
             e.printStackTrace();
         }
     }
-    @FXML
-    public void loadPicture(ActionEvent event) {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Choose your picture");
-        fileChooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("Choose only \".png\" file", "*.png"));
-        File file = fileChooser.showOpenDialog(upload.getScene().getWindow());
 
-        System.out.println(file.getName());
-        upload.setImage(new Image("/image/" + file.getName()));
+    public void setMovies(String keyword) {
+        movies = MoviesDBConnector.getMovieByKeyword(keyword);
+        movieTableView.setItems(movies);
     }
 }
